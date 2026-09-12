@@ -21,10 +21,10 @@ pipeline {
             }
         }
         stage('Test') {
-             steps {
-                echo 'Running tests..'
+            steps {
+                echo 'Running tests...'
                 sh '''
-                    ./app.sh | grep "Hello from Jenkins CI/CD demo"
+                    ./app.sh | grep "THIS_TEXT_DOES_NOT_EXIST"
                 '''
             }
         }
