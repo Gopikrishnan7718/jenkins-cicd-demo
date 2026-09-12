@@ -4,7 +4,22 @@ pipeline {
         label 'linux'
     }
 
+    parameters {
+    choice(
+        name: 'ENVIRONMENT',
+        choices: ['dev', 'staging', 'prod'],
+        description: 'Select the deployment environment'
+    )
+}
+
     stages {
+
+
+        stage('Show Parameters') {
+            steps {
+                echo "Selected environment: ${params.ENVIRONMENT}"
+            }
+        }
        
         stage('checkout') {
             steps {
