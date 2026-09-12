@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo 'Running tests...'
                 sh '''
-                    ./app.sh | grep "THIS_TEXT_DOES_NOT_EXIST"
+                   ./app.sh | grep "Hello from Jenkins CI/CD demo"
                 '''
             }
         }
