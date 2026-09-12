@@ -26,9 +26,10 @@ pipeline {
                 checkout scm
             }
         }
-        stage('build') {
+        stage('Build') {
             steps {
-                echo 'Building application...'
+                echo "Building application for ${params.ENVIRONMENT} environment..."
+
                 sh '''
                     chmod +x app.sh
                     ./app.sh
