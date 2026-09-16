@@ -31,8 +31,8 @@ pipeline {
                 echo "Building application for ${params.ENVIRONMENT} environment..."
 
                 sh '''
-                    chmod +x app.sh
-                    ./app.sh
+                    docker run --rm -v "$WORKSPACE:/app" -w /app maven:3.9-eclipse-termurin-21 mvn clean package
+
                 '''
             }
         }
