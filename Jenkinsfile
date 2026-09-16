@@ -38,9 +38,9 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Running tests...'
+                echo 'Running maven tests...'
                 sh '''
-                   ./app.sh | grep "Hello from Jenkins CI/CD demo"
+                   docker run --rm -v "$WORKSPACE:/app" -w /app maven:3.9-eclipse-temurin-21 mvn test
                 '''
             }
         }
