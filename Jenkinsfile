@@ -10,7 +10,7 @@ pipeline {
         choices: ['dev', 'staging', 'prod'],
         description: 'Select the deployment environment'
     )
-}
+ }
 
     stages {
 
@@ -44,7 +44,18 @@ pipeline {
                 '''
             }
         }
+
+        stage('SonarQube Analysis') {
+            steps {
+                WithSonarQubeEnv('SonarQube') {
+                    sh '''
+                        docker run --rm -v "%WORKSPACE:/app" -w /app maven:3.9-eclipse-temurin-21 mvn sonar:sonar
+                }
+            }
+        }
+          
     }
+   
     post {
         success {
             echo 'Pipeline completed successfully!'
@@ -52,8 +63,6 @@ pipeline {
         failure {
             echo 'Pipeline failed. Please check the logs for details.'
         }
+     
     }
-
-
-
 }
