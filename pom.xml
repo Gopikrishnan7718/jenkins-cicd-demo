@@ -19,8 +19,6 @@
         <sonar.projectName>jenkins-cicd-demo</sonar.projectName>
     </properties>
 
-
-
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -29,5 +27,15 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>5.2.0.4988</version>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
