@@ -49,7 +49,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     sh '''
-                        docker run --rm -v "%WORKSPACE:/app" -w /app maven:3.9-eclipse-temurin-21 mvn sonar:sonar
+                        docker run --rm -v "$WORKSPACE:/app" -w /app maven:3.9-eclipse-temurin-21 mvn sonar:sonar
                     '''
                 }
             }
