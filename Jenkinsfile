@@ -69,7 +69,7 @@ pipeline {
           }
         }
         
-        stage (docker build) {
+        stage ('docker build') {
             steps {
                 echo "Building Docker image for ${params.ENVIRONMENT} environment..."
                 sh '''
