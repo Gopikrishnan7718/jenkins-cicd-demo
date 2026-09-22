@@ -73,7 +73,7 @@ pipeline {
             steps {
                 echo "Building Docker image for ${params.ENVIRONMENT} environment..."
                 sh '''
-                    docker build -t jenkins-cicd-demo:${params.ENVIRONMENT} .
+                    docker build -t jenkins-cicd-demo:${BUILD_NUMBER} .
                 '''
             }
         }
