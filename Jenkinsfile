@@ -68,7 +68,33 @@ pipeline {
             }
           }
         }
-          
+        
+        stage (docker build) {
+            steps {
+                echo "Building Docker image for ${params.ENVIRONMENT} environment..."
+                sh '''
+                    docker build -t jenkins-cicd-demo:${params.ENVIRONMENT} .
+                '''
+            }
+        }
+        
+        stage('Trivy Scan') {
+            steps {
+                echo "Scanning Docker image for vulnerabilities..."
+
+               sh '''
+                    docker run --rm \
+                    -v /var/run/docker.sock:/var/run/docker.sock \
+                    -v trivy-cache:/root/.cache/trivy \
+                    aquasec/trivy:latest \
+                    image \
+                    --severity HIGH,CRITICAL \
+                    --exit-code 1 \
+                    jenkins-cicd-demo:${BUILD_NUMBER}
+                '''
+            }
+        }
+
     }
    
     post {
