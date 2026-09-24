@@ -95,6 +95,42 @@ pipeline {
             }
         }
 
+        stage('Push to ECR') {
+            steps {
+                echo "Pushing Docker image to Amazon ECR..."
+
+                sh '''
+                    AWS_REGION="ap-south-1"
+                    AWS_ACCOUNT_ID=$(aws sts get-caller-identity \
+                        --query Account \
+                        --output text)
+
+                    ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+                    ECR_REPOSITORY="${ECR_REGISTRY}/jenkins-cicd-demo"
+                    IMAGE_TAG="${BUILD_NUMBER}"
+
+                    echo "Authenticating Docker with Amazon ECR..."
+
+                    aws ecr get-login-password \
+                        --region "${AWS_REGION}" | \
+                        docker login \
+                        --username AWS \
+                        --password-stdin "${ECR_REGISTRY}"
+
+                    echo "Tagging Docker image..."
+
+                    docker tag \
+                        "jenkins-cicd-demo:${IMAGE_TAG}" \
+                        "${ECR_REPOSITORY}:${IMAGE_TAG}"
+
+                    echo "Pushing Docker image..."
+
+                    docker push \
+                        "${ECR_REPOSITORY}:${IMAGE_TAG}"
+                '''
+            }
+        }
+
     }
    
     post {
